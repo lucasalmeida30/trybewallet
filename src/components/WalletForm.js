@@ -1,38 +1,88 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fetchCurrencies } from '../redux/actions';
+import { addExpense, fetchApi, fetchCurrencies } from '../redux/actions';
 
 class WalletForm extends Component {
+  state = {
+    value: '',
+    description: '',
+    currency: 'USD',
+    method: 'Dinheiro',
+    category: 'Alimentação',
+  };
+
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(fetchCurrencies());
   }
 
+  saveExpense = async () => {
+    const { value, method, description, currency, category } = this.state;
+    const { dispatch, idToEdit } = this.props;
+    const exchangeRates = await fetchApi();
+    delete exchangeRates.USDT;
+    const newObj = {
+      id: idToEdit,
+      value,
+      method,
+      description,
+      currency,
+      tag: category,
+      exchangeRates,
+    };
+    dispatch(addExpense(newObj));
+    this.setState({
+      value: '',
+      description: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      category: 'Alimentação',
+    });
+  };
+
+  handleChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  };
+
   render() {
     const { currencies } = this.props;
+    const { value, method, description, currency, category } = this.state;
     return (
       <div>
         <form>
           <label htmlFor="valor">
             Valor:
             <input
-              type="text"
-              name="valor"
+              type="number"
+              name="value"
+              value={ value }
+              onChange={ this.handleChange }
               data-testid="value-input"
             />
           </label>
 
           <label htmlFor="moeda">
             Moeda:
-            <select id="moeda" data-testid="currency-input">
+            <select
+              name="currency"
+              value={ currency }
+              onChange={ this.handleChange }
+              data-testid="currency-input"
+            >
               { currencies.map((e, index) => <option key={ index }>{e}</option>)}
             </select>
           </label>
 
           <label htmlFor="pagamento">
             Método de pagamento:
-            <select id="pagamento" data-testid="method-input">
+            <select
+              onChange={ this.handleChange }
+              name="method"
+              data-testid="method-input"
+              value={ method }
+            >
               <option>Dinheiro</option>
               <option>Cartão de crédito</option>
               <option>Cartão de débito</option>
@@ -41,7 +91,12 @@ class WalletForm extends Component {
 
           <label htmlFor="categoria">
             Categoria:
-            <select id="categoria" data-testid="tag-input">
+            <select
+              name="category"
+              value={ category }
+              onChange={ this.handleChange }
+              data-testid="tag-input"
+            >
               <option>Alimentação</option>
               <option>Lazer</option>
               <option>Trabalho</option>
@@ -54,10 +109,18 @@ class WalletForm extends Component {
             Descrição:
             <input
               type="text"
-              name="descrição"
+              name="description"
+              value={ description }
+              onChange={ this.handleChange }
               data-testid="description-input"
             />
           </label>
+          <button
+            type="button"
+            onClick={ this.saveExpense }
+          >
+            Adicionar despesa
+          </button>
         </form>
 
       </div>
@@ -66,11 +129,13 @@ class WalletForm extends Component {
 }
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
+  idToEdit: state.wallet.idToEdit,
 });
 
 WalletForm.propTypes = {
   dispatch: PropTypes.func.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+  idToEdit: PropTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps)(WalletForm);
