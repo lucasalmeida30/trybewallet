@@ -3,6 +3,8 @@ export const REQUEST_CURRENCIES = 'REQUEST_CURRENCIES';
 export const REQUEST_CURRENCIES_SUCESS = 'REQUEST_CURRENCIES_SUCESS';
 export const REQUEST_CURRENCIES_ERRO = 'REQUEST_CURRENCIES_ERRO';
 export const ADD_EXPENSE = 'ADD_EXPENSE';
+export const EDIT_EXPENSES = 'EDIT_EXPENSES';
+export const DELETE_EXPENSES = 'DELETE_EXPENSES';
 
 const actionLogin = (email) => ({
   type: ACTION_LOGIN,
@@ -26,6 +28,12 @@ const requestCurrenciesErro = (erro) => ({
 export const addExpense = (expenses) => ({
   type: ADD_EXPENSE,
   payload: expenses,
+
+});
+
+export const deleteExpenses = (id) => ({
+  type: DELETE_EXPENSES,
+  payload: id,
 
 });
 

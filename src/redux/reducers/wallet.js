@@ -1,5 +1,6 @@
 import {
   ADD_EXPENSE,
+  DELETE_EXPENSES,
   REQUEST_CURRENCIES,
   REQUEST_CURRENCIES_ERRO,
   REQUEST_CURRENCIES_SUCESS } from '../actions/index';
@@ -33,6 +34,11 @@ const walletReducer = (state = inittialState, action) => {
       expenses: [...state.expenses, action.payload],
       idToEdit: state.idToEdit + 1,
 
+    };
+  case DELETE_EXPENSES:
+    return {
+      ...state,
+      expenses: action.payload,
     };
   default:
     return state;
