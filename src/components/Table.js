@@ -39,7 +39,7 @@ class Table extends Component {
                 tag,
                 exchangeRates,
               }) => (
-                <tr key={ id }>
+                <tr data-testid="linha-table" key={ id }>
                   <td>{description}</td>
                   <td>{tag }</td>
                   <td>{method }</td>

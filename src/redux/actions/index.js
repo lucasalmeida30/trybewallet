@@ -20,10 +20,10 @@ const requestCurrenciesSucess = (payload) => ({
   payload,
 });
 
-const requestCurrenciesErro = (erro) => ({
-  type: REQUEST_CURRENCIES_ERRO,
-  payload: erro,
-});
+// const requestCurrenciesErro = (erro) => ({
+//   type: REQUEST_CURRENCIES_ERRO,
+//   payload: erro,
+// });
 
 export const addExpense = (expenses) => ({
   type: ADD_EXPENSE,
@@ -45,13 +45,9 @@ export const fetchApi = async () => {
 
 export const fetchCurrencies = () => async (dispatch) => {
   dispatch(requestCurrencies());
-  try {
-    const json = await fetchApi();
-    const filterData = Object.keys(json).filter((element) => element !== 'USDT');
-    dispatch(requestCurrenciesSucess(filterData));
-  } catch (error) {
-    dispatch(requestCurrenciesErro(error));
-  }
+  const json = await fetchApi();
+  const filterData = Object.keys(json).filter((element) => element !== 'USDT');
+  dispatch(requestCurrenciesSucess(filterData));
 };
 
 export default actionLogin;

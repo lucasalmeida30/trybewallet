@@ -2,7 +2,7 @@ import {
   ADD_EXPENSE,
   DELETE_EXPENSES,
   REQUEST_CURRENCIES,
-  REQUEST_CURRENCIES_ERRO,
+  // REQUEST_CURRENCIES_ERRO,
   REQUEST_CURRENCIES_SUCESS } from '../actions/index';
 
 const inittialState = {
@@ -23,11 +23,11 @@ const walletReducer = (state = inittialState, action) => {
       ...state,
       currencies: [...action.payload],
     };
-  case REQUEST_CURRENCIES_ERRO:
-    return {
-      ...state,
-      currencies: action.payload.erro.message || 'Error',
-    };
+  // case REQUEST_CURRENCIES_ERRO:
+  //   return {
+  //     ...state,
+  //     currencies: action.payload.erro.message || 'Error',
+  //   };
   case ADD_EXPENSE:
     return {
       ...state,
