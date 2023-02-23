@@ -21,7 +21,7 @@ class WalletForm extends Component {
     const { value, method, description, currency, category } = this.state;
     const { dispatch, idToEdit } = this.props;
     const exchangeRates = await fetchApi();
-    delete exchangeRates.USDT;
+    // delete exchangeRates.USDT;
     const newObj = {
       id: idToEdit,
       value,
@@ -36,7 +36,7 @@ class WalletForm extends Component {
       value: '',
       description: '',
       currency: 'USD',
-      method: 'Dinheiro',
+      method: 'Dinheiroooo',
       category: 'Alimentação',
     });
   };
